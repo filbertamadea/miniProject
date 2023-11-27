@@ -7,7 +7,11 @@
 
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
-        <v-list-item v-for="item in menuItems" :key="item.text" @click="selectMenuItem(item)">
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.text"
+          @click="selectMenuItem(item)"
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -20,9 +24,9 @@
 
     <v-main>
       <v-container>
-        <v-row>
+        <v-row no-gutters>
           <v-col>
-            <div v-if="selectedMenuItem === 'Dashboard'">
+            <div v-if="selectedMenuItem === 'Resep Oma'">
               <!-- Content for Dashboard -->
               <Menu />
             </div>
@@ -38,25 +42,28 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  import Menu from '@/components/Menu.vue'
-  data() {
-    return {
-      drawer: false,
-      menuItems: [
-        { text: 'Dashboard', icon: 'mdi-view-dashboard' },
-        { text: 'Profile', icon: 'mdi-account' },
-        // Add more menu items as needed
-      ],
-      selectedMenuItem: 'Dashboard', // Default selected menu item
-    };
-  },
-  methods: {
-    selectMenuItem(item) {
-      this.selectedMenuItem = item.text;
-      this.drawer = false; // Close the drawer after selecting an item
-    },
-  },
+<script setup>
+import Menu from "@/components/Menu.vue";
+import { ref, onMounted } from "vue";
+
+let drawer = ref(Boolean);
+let menuItems = ref([]);
+let selectedMenuItem = ref("");
+
+const init = () => {
+  drawer.value = false;
+  menuItems.value = [
+    { text: "Resep Oma", icon: "mdi-view-dashboard" },
+    { text: "Profile", icon: "mdi-account" },
+    // Add more menu items as needed
+  ];
+  selectedMenuItem.value = 'Resep Oma';
 };
+
+const selectMenuItem = (item) => {
+  selectedMenuItem.value = item.text;
+  drawer.value = false;
+};
+
+onMounted(init);
 </script>
