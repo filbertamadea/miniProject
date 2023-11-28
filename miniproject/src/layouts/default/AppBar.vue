@@ -1,3 +1,5 @@
+
+
 <template>
   <v-app>
     <v-app-bar app color="primary">
@@ -28,7 +30,7 @@
             </div>
             <div v-else-if="selectedMenuItem === 'Profile'">
               <!-- Content for Profile -->
-              <h2>Profile Content Goes Here</h2>
+              <Input />
             </div>
             <!-- Add more div elements with v-else-if for other menu items as needed -->
           </v-col>
@@ -39,24 +41,27 @@
 </template>
 
 <script>
+import Input from '@/components/Input.vue';
+import Menu from '@/components/Menu.vue';
+
 export default {
-  import Menu from '@/components/Menu.vue'
-  data() {
-    return {
-      drawer: false,
-      menuItems: [
-        { text: 'Dashboard', icon: 'mdi-view-dashboard' },
-        { text: 'Profile', icon: 'mdi-account' },
-        // Add more menu items as needed
-      ],
-      selectedMenuItem: 'Dashboard', // Default selected menu item
-    };
-  },
-  methods: {
-    selectMenuItem(item) {
-      this.selectedMenuItem = item.text;
-      this.drawer = false; // Close the drawer after selecting an item
+    data() {
+        return {
+            drawer: false,
+            menuItems: [
+                { text: "Dashboard", icon: "mdi-view-dashboard" },
+                { text: "Profile", icon: "mdi-account" },
+                // Add more menu items as needed
+            ],
+            selectedMenuItem: "Dashboard", // Default selected menu item
+        };
     },
-  },
+    methods: {
+        selectMenuItem(item) {
+            this.selectedMenuItem = item.text;
+            this.drawer = false; // Close the drawer after selecting an item
+        },
+    },
+    components: { Menu, Input }
 };
 </script>

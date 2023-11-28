@@ -11,6 +11,9 @@ dependencies:
   core-js:
     specifier: ^3.29.0
     version: 3.33.3
+  idb:
+    specifier: ^7.1.1
+    version: 7.1.1
   roboto-fontface:
     specifier: '*'
     version: 0.10.0

@@ -1,42 +1,36 @@
 <template>
-  <v-app>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-card>
-            <v-card-title class="headline">To-Do Recipe</v-card-title>
-            <v-card-text>
-              <v-expansion-panels>
-                <v-expansion-panel v-for="(step, index) in recipeSteps" :key="index">
-                  <v-expansion-panel-header>{{ step.title }}</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <p>{{ step.description }}</p>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
+  <v-card variant="outlined">
+    <div>
+      <div class="recipe-name">{{ Step[0].name }}</div>
+      <v-expansion-panels>
+        <v-expansion-panel v-for="(step, index) in Step[0].steps" :key="index" :title="`Step ${step.step}`"
+          :text="step.description">
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+  </v-card>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      recipeSteps: [
-        { title: 'Step 1', description: 'Description for Step 1 goes here.' },
-        { title: 'Step 2', description: 'Description for Step 2 goes here.' },
-        { title: 'Step 3', description: 'Description for Step 3 goes here.' },
-        // Add more steps as needed
-      ],
-    };
-  },
-};
-</script>
-
-<style>
-/* Add any custom styles here */
+<style scoped>
+.recipe-name {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 </style>
+
+<script setup>
+const Step = [
+  {
+    name: 'Margherita Pizza',
+    steps: [
+      { step: 1, description: 'Roll out the pizza dough.' },
+      { step: 2, description: 'Spread tomato sauce evenly.' },
+      { step: 3, description: 'Add slices of fresh mozzarella.' },
+      { step: 4, description: 'Sprinkle with basil leaves.' },
+      { step: 5, description: 'Drizzle olive oil over the top.' },
+      { step: 6, description: 'Bake in a preheated oven until the crust is golden brown.' },
+    ],
+  },
+];
+</script>
