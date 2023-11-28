@@ -17,9 +17,9 @@
 
     <v-main>
       <v-container>
-        <v-row>
+        <v-row no-gutters>
           <v-col>
-            <div v-if="selectedMenuItem === 'Dashboard'">
+            <div v-if="selectedMenuItem === 'Resep Oma'">
               <!-- Content for Dashboard -->
               <Menu />
             </div>
@@ -59,4 +59,11 @@ export default {
     },
     components: { Menu, Input }
 };
+
+const selectMenuItem = (item) => {
+  selectedMenuItem.value = item.text;
+  drawer.value = false;
+};
+
+onMounted(init);
 </script>
