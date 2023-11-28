@@ -35,29 +35,22 @@
   </v-app>
 </template>
 
-<script>
-import Input from '@/components/Input.vue';
-import Menu from '@/components/Menu.vue';
+<script setup>
+import Menu from "@/components/Menu.vue";
+import { ref, onMounted } from "vue";
 
-export default {
-    data() {
-        return {
-            drawer: false,
-            menuItems: [
-                { text: "Dashboard", icon: "mdi-food" },
-                { text: "Profile", icon: "mdi-account" },
-                // Add more menu items as needed
-            ],
-            selectedMenuItem: "Dashboard", // Default selected menu item
-        };
-    },
-    methods: {
-        selectMenuItem(item) {
-            this.selectedMenuItem = item.text;
-            this.drawer = false; // Close the drawer after selecting an item
-        },
-    },
-    components: { Menu, Input }
+let drawer = ref(Boolean);
+let menuItems = ref([]);
+let selectedMenuItem = ref("");
+
+const init = () => {
+  drawer.value = false;
+  menuItems.value = [
+    { text: "Resep Oma", icon: "mdi-view-dashboard" },
+    { text: "Profile", icon: "mdi-account" },
+    // Add more menu items as needed
+  ];
+  selectedMenuItem.value = 'Resep Oma';
 };
 
 const selectMenuItem = (item) => {
