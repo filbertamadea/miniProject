@@ -10,12 +10,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
         <v-list-item v-for="item in menuItems" :key="item.text" @click="selectMenuItem(item)">
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item :prepend-icon="item.icon" :title="item.text"></v-list-item>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -49,7 +44,7 @@ export default {
         return {
             drawer: false,
             menuItems: [
-                { text: "Dashboard", icon: "mdi-view-dashboard" },
+                { text: "Dashboard", icon: "mdi-food" },
                 { text: "Profile", icon: "mdi-account" },
                 // Add more menu items as needed
             ],
