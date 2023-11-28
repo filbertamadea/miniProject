@@ -1,15 +1,4 @@
 <template>
-  <!-- <v-card variant="outlined">
-    <div>
-      <div class="recipe-name">{{ Step[0].name }}</div>
-      <v-expansion-panels>
-        <v-expansion-panel v-for="(step, index) in Step[0].steps" :key="index" :title="`Step ${step.step}`"
-          :text="step.description">
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </div>
-  </v-card> -->
-
   <!-- CODINGAN NEW -->
   <v-app>
     <v-container>
@@ -25,24 +14,43 @@
                     <strong>INGREDIENTS</strong>
                   </v-col>
                   <v-col :style="{ textAlign: 'right' }">
+                    <v-btn
+                      color="blue"
+                      v-bind="props"
+                      text="Refresh"
+                      style="margin-right: 10px"
+                      @click="fetchDataIngredients"
+                    >
+                    </v-btn>
                     <v-dialog width="500">
                       <template v-slot:activator="{ props }">
                         <v-btn color="blue" v-bind="props" text="ADD"> </v-btn>
                       </template>
 
                       <template v-slot:default="{ isActive }">
-                        <v-card title="Add Instruction">
+                        <v-card title="Add Ingredients">
                           <v-card-text>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.
+                            <v-form @submit.prevent="submitFormIng">
+                              <v-text-field
+                                v-model="ingredientsName"
+                                label="Ingredients Type"
+                              ></v-text-field>
+                              <v-textarea
+                                label="Description"
+                                v-model="ingredientsDescription"
+                              >
+                              </v-textarea>
+                              <v-btn type="submit" block class="mt-2"
+                                >Submit</v-btn
+                              >
+                            </v-form>
                           </v-card-text>
 
-                          <v-card-actions>
+                          <!-- <v-card-actions>
                             <v-spacer></v-spacer>
 
                             <v-btn text="Close Dialog" @click="isActive.value = false"></v-btn>
-                          </v-card-actions>
+                          </v-card-actions> -->
                         </v-card>
                       </template>
                     </v-dialog>
@@ -54,9 +62,22 @@
             <v-card-text>
               <v-skeleton-loader :loading="loadingIngredients" type="heading">
                 <v-expansion-panels :style="{ display: 'block' }">
-                  <v-expansion-panel v-for="itemg in ingredients" :key="itemg.createdAt" :title="itemg.name">
+                  <v-expansion-panel
+                    v-for="itemg in ingredients"
+                    :key="itemg.createdAt"
+                    :title="itemg.name"
+                  >
                     <v-expansion-panel-text>
                       <p class="text-left" v-html="itemg.description"></p>
+                      <template v-slot:itemg.image="{ value }">
+                        <v-img
+                          :width="100"
+                          :height="100"
+                          aspect-ratio="16/9"
+                          cover
+                          :src="'data:image/png;base64,' + value"
+                        ></v-img>
+                      </template>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -70,7 +91,14 @@
                     <strong>INSTRUCTIONS</strong>
                   </v-col>
                   <v-col :style="{ textAlign: 'right' }">
-                    <v-btn color="blue" v-bind="props" text="Refresh" style="margin-right : 10px;" onclick="window.location.reload()"> </v-btn>
+                    <v-btn
+                      color="blue"
+                      v-bind="props"
+                      text="Refresh"
+                      style="margin-right: 10px"
+                      @click="fetchDataInstructions"
+                    >
+                    </v-btn>
                     <v-dialog width="500">
                       <template v-slot:activator="{ props }">
                         <v-btn color="blue" v-bind="props" text="ADD"> </v-btn>
@@ -80,11 +108,26 @@
                         <v-card title="Add Instruction">
                           <v-card-text>
                             <v-form @submit.prevent="submitForm">
-                              <v-text-field v-model="todo" label="To Do"></v-text-field>
-                              <v-textarea label="Description" v-model="deskripsi">
-                    
+                              <v-text-field
+                                v-model="todo"
+                                label="To Do"
+                              ></v-text-field>
+                              <v-textarea
+                                label="Description"
+                                v-model="deskripsi"
+                              >
                               </v-textarea>
-                              <v-btn type="submit" block class="mt-2">Submit</v-btn>
+                              <v-file-input
+                                v-model="filename"
+                                accept="image/*"
+                                clearable
+                                label="File input"
+                                variant="solo-filled"
+                                @change="handleFileChange"
+                              ></v-file-input>
+                              <v-btn type="submit" block class="mt-2"
+                                >Submit</v-btn
+                              >
                             </v-form>
                           </v-card-text>
 
@@ -104,10 +147,30 @@
             <v-card-text>
               <v-skeleton-loader :loading="loading" type="heading">
                 <v-expansion-panels :style="{ display: 'block' }">
-                  <v-expansion-panel v-for="item in recipeSteps" :key="item.createdAt" :title="item.todo">
+                  <v-expansion-panel
+                    v-for="item in recipeSteps"
+                    :key="item.createdAt"
+                    :title="item.todo"
+                  >
                     <v-expansion-panel-text>
                       <p class="text-left" v-html="item.description"></p>
-                      <v-btn @click="deleteInstruction(item.id)" color="red" text style="margin-top: 10px;">Delete</v-btn>
+                      <v-img
+                        :width="100"
+                        :height="100"
+                        aspect-ratio="16/9"
+                        cover
+                        :src="
+                          'data:image/png;base64,' +
+                          _arrayBufferToBase64(item.image)
+                        "
+                      ></v-img>
+                      <v-btn
+                        @click="deleteInstruction(item.id)"
+                        color="red"
+                        text
+                        style="margin-top: 10px"
+                        >Delete</v-btn
+                      >
                     </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -129,20 +192,6 @@
 </style>
 
 <script setup>
-// const Step = [
-//   {
-//     name: 'Margherita Pizza',
-//     steps: [
-//       { step: 1, description: 'Roll out the pizza dough.' },
-//       { step: 2, description: 'Spread tomato sauce evenly.' },
-//       { step: 3, description: 'Add slices of fresh mozzarella.' },
-//       { step: 4, description: 'Sprinkle with basil leaves.' },
-//       { step: 5, description: 'Drizzle olive oil over the top.' },
-//       { step: 6, description: 'Bake in a preheated oven until the crust is golden brown.' },
-//     ],
-//   },
-// ];
-
 // CODINGAN NEW
 import { ref, onMounted } from "vue";
 let recipeSteps = ref([]);
@@ -153,72 +202,164 @@ let loading = ref(Boolean);
 
 let todo = ref("");
 let deskripsi = ref("");
+let ingredientsName = ref("");
+let ingredientsDescription = ref("");
+let image;
+
+// Create Broadcast Channel and listen to messages sent to it
+const broadcast = new BroadcastChannel("sw-update-channel");
+
+broadcast.onmessage = (event) => {
+  if (event.data && event.data.type === "CRITICAL_SW_UPDATE") {
+    // Show "update to refresh" banner to the user.
+    const payload = event.data.payload;
+
+    // Log the payload to the console
+    console.log(payload);
+    //show()
+  }
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const imageUrl = URL.createObjectURL(file);
+    // image = _arrayBufferToBase64(e.target.result);
+    image = e.target.result;
+    console.log(image);
+  };
+
+  reader.readAsArrayBuffer(file);
+};
+
+const _arrayBufferToBase64 = (buffer) => {
+  var binary = "";
+  var bytes = new Uint8Array(buffer);
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+};
 
 const submitForm = async () => {
-
+  console.log(image);
   const body = {
     todo: todo.value,
-    description: deskripsi.value
+    description: deskripsi.value,
+    image: image,
   };
 
   const settings = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body) 
+    body: JSON.stringify(body),
   };
 
   try {
     if (body.todo && body.description) {
-      const kirimData = await fetch('https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction', settings);
-      console.log(kirimData);
-
-      window.location.reload()
+      const kirimData = await fetch(
+        "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction",
+        settings
+      );
+      window.location.reload();
+      fetchData();
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
   }
+};
 
+const submitFormIng = async () => {
+  console.log(ingredientsName.value)
+  const body = {
+    name: ingredientsName.value,
+    description: ingredientsDescription.value,
+  };
+
+  const settings = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+
+  try {
+    if (body.name && body.description) {
+      const kirimData = await fetch(
+        "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/ingredients",
+        settings
+      );
+      window.location.reload();
+      fetchData();
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 };
 
 const deleteInstruction = async (instructionId) => {
   try {
-    const response = await fetch(`https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction/${instructionId}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction/${instructionId}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     if (response.ok) {
-      window.location.reload()
+      window.location.reload();
+      fetchData();
     } else {
-      console.error('Failed to delete instruction');
+      console.error("Failed to delete instruction");
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
   }
 };
 
 // Define a function to fetch data
-const fetchData = async () => {
+const fetchData = () => {
+  fetchDataIngredients();
+  fetchDataInstructions();
+};
+
+const fetchDataIngredients = async () => {
   try {
-    const responseIngredients = await fetch("https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/ingredients");
-    const responseInstructions = await fetch("https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction");
+    const responseIngredients = await fetch(
+      "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/ingredients"
+    );
 
     if (responseIngredients.ok) {
       const responseIngredientsTemp = await responseIngredients.json();
       recipeName.value = "Resep Nasi Goreng Spesial";
       ingredients.value = responseIngredientsTemp;
       loadingIngredients.value = false;
+    } else {
+      console.error("Failed to fetch data");
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
 
-      if (responseInstructions.ok) {
-        const responseInstructionsTemp = await responseInstructions.json();
-        recipeSteps.value = responseInstructionsTemp;
-        loading.value = false;
-      } else {
-        console.error("Failed to fetch data");
-      }
+const fetchDataInstructions = async () => {
+  try {
+    const responseInstructions = await fetch(
+      "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction"
+    );
 
+    if (responseInstructions.ok) {
+      const responseInstructionsTemp = await responseInstructions.json();
+      recipeSteps.value = responseInstructionsTemp;
+      loading.value = false;
     } else {
       console.error("Failed to fetch data");
     }
@@ -229,5 +370,4 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 loading.value = true;
-
 </script>

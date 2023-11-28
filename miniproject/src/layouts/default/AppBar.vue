@@ -25,7 +25,7 @@
             </div>
             <div v-else-if="selectedMenuItem === 'Profile'">
               <!-- Content for Profile -->
-              <Input />
+              <Profile />
             </div>
             <!-- Add more div elements with v-else-if for other menu items as needed -->
           </v-col>
@@ -37,6 +37,7 @@
 
 <script setup>
 import Menu from "@/components/Menu.vue";
+import Profile from "@/components/Profile.vue";
 import { ref, onMounted } from "vue";
 
 let drawer = ref(Boolean);

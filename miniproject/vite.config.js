@@ -12,15 +12,15 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [
     VitePWA({
-      // strategies: 'injectManifest',
-      strategies: 'generateSW',
-      // srcDir: 'src',
-      // filename: 'sw.js',
+      strategies: 'injectManifest',
+      // strategies: 'generateSW',
+      srcDir: 'src',
+      filename: 'sw.js',
       workbox: {
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/6564bb89ceac41c0761eba72.mockapi.io\/api\/miniproject/,
-            handler: 'CacheFirst',
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'mockapi-cache',
               expiration: {
@@ -29,6 +29,12 @@ export default defineConfig({
               },
               cacheableResponse: {
                 statuses: [0, 200]
+              },
+              backgroundSync: {
+              name: 'miniProjectQueue',
+                options: {
+                  maxRetentionTime: 24 * 60
+                }
               }
             }
           },
