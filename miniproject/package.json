@@ -10,6 +10,7 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@maptiler/sdk": "^1.2.0",
     "@mdi/font": "7.0.96",
     "@vueuse/components": "^10.6.1",
     "@vueuse/core": "^10.6.1",

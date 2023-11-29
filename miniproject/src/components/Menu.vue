@@ -14,12 +14,12 @@
                     <strong>INGREDIENTS</strong>
                   </v-col>
                   <v-col :style="{ textAlign: 'right' }">
-                    <v-btn color="blue" v-bind="props" text="Refresh" style="margin-right: 10px"
+                    <v-btn color="blue" v-bind="props1" text="Refresh" style="margin-right: 10px"
                       @click="fetchDataIngredients">
                     </v-btn>
                     <v-dialog width="500" v-model="dialogIng">
-                      <template v-slot:activator="{ props }">
-                        <v-btn color="blue" v-bind="props" text="ADD"> </v-btn>
+                      <template v-slot:activator="{ props1 }">
+                        <v-btn color="blue" v-bind="props1" text="ADD"> </v-btn>
                       </template>
 
                       <template v-slot:default="{ isActive }">
@@ -165,6 +165,8 @@ let loading = ref(Boolean);
 let dialogIng = ref(Boolean);
 let dialogIns = ref(Boolean);
 let dialogDelIns = ref(Boolean);
+// const props = ref(Boolean);
+// const props1 = ref(Boolean);
 
 let todo = ref("");
 let deskripsi = ref("");

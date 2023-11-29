@@ -12,12 +12,13 @@
       <div>
         <!-- <button @click="pause">Pause watch</button>
         <button @click="resume">Start watch</button> -->
-        <div>
-          <UseGeolocation v-slot="{ coords: { latitude, longitude } }">
-            <strong>YOUR POSITION</strong><br/>
-            <strong>Latitude: {{ latitude }} Longitude: {{ longitude }}</strong>
-          </UseGeolocation>
-        </div>
+        <UseGeolocation v-slot="{ coords: { latitude, longitude } }">
+          <strong>YOUR POSITION</strong><br />
+          <strong
+            >Latitude: {{ latitude }} <br />Longitude: {{ longitude }}</strong
+          >
+        </UseGeolocation>
+        <!-- <Map /> -->
       </div>
     </v-card-subtitle>
 
@@ -94,8 +95,9 @@
 import { ref, onMounted } from "vue";
 import { useGeolocation } from "@vueuse/core";
 import { UseGeolocation } from "@vueuse/components";
-const { coords, locatedAt, error, resume, pause } = useGeolocation();
+import Map from "./Map.vue";
 
+const { coords, locatedAt, error, resume, pause } = useGeolocation();
 const show = ref(Boolean);
 const categoryName = ref("");
 const categoryValue = ref("");
