@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "generate-pwa-assets": "pwa-assets-generator",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -13,18 +14,19 @@
     "core-js": "^3.29.0",
     "idb": "^7.1.1",
     "roboto-fontface": "*",
-    "vite-plugin-pwa": "^0.17.0",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0"
   },
   "devDependencies": {
+    "@vite-pwa/assets-generator": "^0.0.11",
     "@vitejs/plugin-vue": "^4.0.0",
     "eslint": "^8.37.0",
     "eslint-plugin-vue": "^9.3.0",
     "sass": "^1.60.0",
     "unplugin-fonts": "^1.0.3",
     "vite": "^4.2.0",
+    "vite-plugin-pwa": "^0.17.2",
     "vite-plugin-vuetify": "^1.0.0"
   }
 }

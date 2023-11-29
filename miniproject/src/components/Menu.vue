@@ -14,15 +14,10 @@
                     <strong>INGREDIENTS</strong>
                   </v-col>
                   <v-col :style="{ textAlign: 'right' }">
-                    <v-btn
-                      color="blue"
-                      v-bind="props"
-                      text="Refresh"
-                      style="margin-right: 10px"
-                      @click="fetchDataIngredients"
-                    >
+                    <v-btn color="blue" v-bind="props" text="Refresh" style="margin-right: 10px"
+                      @click="fetchDataIngredients">
                     </v-btn>
-                    <v-dialog width="500">
+                    <v-dialog width="500" v-model="dialogIng">
                       <template v-slot:activator="{ props }">
                         <v-btn color="blue" v-bind="props" text="ADD"> </v-btn>
                       </template>
@@ -31,18 +26,10 @@
                         <v-card title="Add Ingredients">
                           <v-card-text>
                             <v-form @submit.prevent="submitFormIng">
-                              <v-text-field
-                                v-model="ingredientsName"
-                                label="Ingredients Type"
-                              ></v-text-field>
-                              <v-textarea
-                                label="Description"
-                                v-model="ingredientsDescription"
-                              >
+                              <v-text-field v-model="ingredientsName" label="Ingredients Type"></v-text-field>
+                              <v-textarea label="Description" v-model="ingredientsDescription">
                               </v-textarea>
-                              <v-btn type="submit" block class="mt-2"
-                                >Submit</v-btn
-                              >
+                              <v-btn type="submit" block class="mt-2">Submit</v-btn>
                             </v-form>
                           </v-card-text>
 
@@ -62,21 +49,12 @@
             <v-card-text>
               <v-skeleton-loader :loading="loadingIngredients" type="heading">
                 <v-expansion-panels :style="{ display: 'block' }">
-                  <v-expansion-panel
-                    v-for="itemg in ingredients"
-                    :key="itemg.createdAt"
-                    :title="itemg.name"
-                  >
+                  <v-expansion-panel v-for="itemg in ingredients" :key="itemg.createdAt" :title="itemg.name">
                     <v-expansion-panel-text>
                       <p class="text-left" v-html="itemg.description"></p>
                       <template v-slot:itemg.image="{ value }">
-                        <v-img
-                          :width="100"
-                          :height="100"
-                          aspect-ratio="16/9"
-                          cover
-                          :src="'data:image/png;base64,' + value"
-                        ></v-img>
+                        <v-img :width="100" :height="100" aspect-ratio="16/9" cover
+                          :src="'data:image/png;base64,' + value"></v-img>
                       </template>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
@@ -91,15 +69,10 @@
                     <strong>INSTRUCTIONS</strong>
                   </v-col>
                   <v-col :style="{ textAlign: 'right' }">
-                    <v-btn
-                      color="blue"
-                      v-bind="props"
-                      text="Refresh"
-                      style="margin-right: 10px"
-                      @click="fetchDataInstructions"
-                    >
+                    <v-btn color="blue" v-bind="props" text="Refresh" style="margin-right: 10px"
+                      @click="fetchDataInstructions">
                     </v-btn>
-                    <v-dialog width="500">
+                    <v-dialog v-model="dialogIns" width="500">
                       <template v-slot:activator="{ props }">
                         <v-btn color="blue" v-bind="props" text="ADD"> </v-btn>
                       </template>
@@ -108,26 +81,12 @@
                         <v-card title="Add Instruction">
                           <v-card-text>
                             <v-form @submit.prevent="submitForm">
-                              <v-text-field
-                                v-model="todo"
-                                label="To Do"
-                              ></v-text-field>
-                              <v-textarea
-                                label="Description"
-                                v-model="deskripsi"
-                              >
+                              <v-text-field v-model="todo" label="To Do"></v-text-field>
+                              <v-textarea label="Description" v-model="deskripsi">
                               </v-textarea>
-                              <v-file-input
-                                v-model="filename"
-                                accept="image/*"
-                                clearable
-                                label="File input"
-                                variant="solo-filled"
-                                @change="handleFileChange"
-                              ></v-file-input>
-                              <v-btn type="submit" block class="mt-2"
-                                >Submit</v-btn
-                              >
+                              <v-file-input v-model="filename" accept="image/*" clearable label="File input"
+                                variant="solo-filled" @change="handleFileChange"></v-file-input>
+                              <v-btn type="submit" block class="mt-2">Submit</v-btn>
                             </v-form>
                           </v-card-text>
 
@@ -147,30 +106,34 @@
             <v-card-text>
               <v-skeleton-loader :loading="loading" type="heading">
                 <v-expansion-panels :style="{ display: 'block' }">
-                  <v-expansion-panel
-                    v-for="item in recipeSteps"
-                    :key="item.createdAt"
-                    :title="item.todo"
-                  >
+                  <v-expansion-panel v-for="item in recipeSteps" :key="item.createdAt" :title="item.todo">
                     <v-expansion-panel-text>
                       <p class="text-left" v-html="item.description"></p>
-                      <v-img
-                        :width="100"
-                        :height="100"
-                        aspect-ratio="16/9"
-                        cover
-                        :src="
-                          'data:image/png;base64,' +
-                          _arrayBufferToBase64(item.image)
-                        "
-                      ></v-img>
-                      <v-btn
-                        @click="deleteInstruction(item.id)"
-                        color="red"
-                        text
-                        style="margin-top: 10px"
-                        >Delete</v-btn
-                      >
+                      <v-img :width="100" :height="100" aspect-ratio="16/9" cover :src="
+                        'data:image/png;base64,' +
+                        _arrayBufferToBase64(item.image)
+                      "></v-img>
+                      <!-- <v-btn @click="deleteInstruction(item.id)" color="red" text style="margin-top: 10px">Delete</v-btn> -->
+                      <v-dialog width="500" v-model="dialogDelIns">
+                        <template v-slot:activator="{ props }">
+                          <v-btn v-bind="props" text="Delete" color="red" style="margin-top: 10px"> </v-btn>
+                        </template>
+
+                        <template v-slot:default="{ isActive }">
+                          <v-card title="Confirmation">
+                            <v-card-text>
+                              Are you sure to delete this data?
+                            </v-card-text>
+
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+
+                              <v-btn text="Yes" @click="deleteInstruction(item.id)"></v-btn>
+                              <v-btn text="No" @click="isActive.value = false"></v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </template>
+                      </v-dialog>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -199,6 +162,9 @@ let ingredients = ref([]);
 let recipeName = ref("");
 let loadingIngredients = ref(Boolean);
 let loading = ref(Boolean);
+let dialogIng = ref(Boolean);
+let dialogIns = ref(Boolean);
+let dialogDelIns = ref(Boolean);
 
 let todo = ref("");
 let deskripsi = ref("");
@@ -267,8 +233,9 @@ const submitForm = async () => {
         "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/instruction",
         settings
       );
-      window.location.reload();
+      // window.location.reload();
       fetchData();
+      dialogIns.value = false
     }
   } catch (error) {
     console.error("An error occurred:", error);
@@ -297,8 +264,9 @@ const submitFormIng = async () => {
         "https://6564bb89ceac41c0761eba72.mockapi.io/api/miniproject/ingredients",
         settings
       );
-      window.location.reload();
+      // window.location.reload();
       fetchData();
+      dialogIng.value = false
     }
   } catch (error) {
     console.error("An error occurred:", error);
@@ -315,8 +283,9 @@ const deleteInstruction = async (instructionId) => {
     );
 
     if (response.ok) {
-      window.location.reload();
+      // window.location.reload();
       fetchData();
+      dialogIng.value = false
     } else {
       console.error("Failed to delete instruction");
     }
@@ -370,4 +339,7 @@ const fetchDataInstructions = async () => {
 
 onMounted(fetchData);
 loading.value = true;
+dialogIng.value = false;
+dialogIns.value = false;
+dialogDelIns.value = false;
 </script>
