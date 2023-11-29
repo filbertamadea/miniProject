@@ -8,7 +8,18 @@
 
     <v-card-title> Filbert Amadea Shan Noel </v-card-title>
 
-    <v-card-subtitle> Fullstack Developer </v-card-subtitle>
+    <v-card-subtitle>
+      <div>
+        <!-- <button @click="pause">Pause watch</button>
+        <button @click="resume">Start watch</button> -->
+        <div>
+          <UseGeolocation v-slot="{ coords: { latitude, longitude } }">
+            <strong>YOUR POSITION</strong><br/>
+            <strong>Latitude: {{ latitude }} Longitude: {{ longitude }}</strong>
+          </UseGeolocation>
+        </div>
+      </div>
+    </v-card-subtitle>
 
     <v-card-actions>
       <v-btn color="orange-lighten-2" variant="text"> Biodata </v-btn>
@@ -81,6 +92,9 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useGeolocation } from "@vueuse/core";
+import { UseGeolocation } from "@vueuse/components";
+const { coords, locatedAt, error, resume, pause } = useGeolocation();
 
 const show = ref(Boolean);
 const categoryName = ref("");
@@ -121,7 +135,7 @@ const addData = () => {
     const addTransaction = db.transaction("category", "readwrite");
     const categoryObjectStore = addTransaction.objectStore("category");
 
-    console.log(categoryName.value, categoryValue.value)
+    console.log(categoryName.value, categoryValue.value);
     const addRequest = categoryObjectStore.add({
       categoryName: categoryName.value,
       categoryValue: categoryValue.value,
@@ -177,7 +191,7 @@ const readData = () => {
 
       if (cursor) {
         category.value.push(cursor.value);
-        console.log(category)
+        console.log(category);
         cursor.continue();
       } else {
         console.log("Data read successfully");
